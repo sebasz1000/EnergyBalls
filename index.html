@@ -4,7 +4,7 @@
     <script src="js/jquery-1.6.4.min.js"></script>
     <style>
 html, body {
-	background-color: #1f1f1f;
+	background-color: #131313;
 	margin: 0px;
 	padding: 0px;
 	width: 100%;
@@ -156,16 +156,17 @@ var mostrarAyudanos = false;
 containerDiv = document.getElementById('container');
 context = canvas.getContext('2d');
 function init() {
-	var colorBolaUno = "rgba(245, 95, 86,1)";
- 	var colorBolaDos =  "rgba(66, 219, 252,1)";
- 	var colorBolaTres = "rgba(212, 133, 245,1)";
- 	var colorBolaCuatro = "rgba(202, 235, 118,1)";
-
-	balls[0]= new Ball(200,300,"web",32,colorBolaUno,false);
-	balls[1]= new Ball(500,300,"solucionesInteractivas",40,colorBolaDos,false);  //
-	balls[2]= new Ball(800,300,"publicidadAnimada",50,colorBolaTres,false);  //
-	balls[3]= new Ball(1100,300,"publicidadInteractiva",40,colorBolaCuatro,false);  //
-
+	
+    var winWidth = window.innerWidth;
+    var winHeight = window.innerHeight;
+    console.log(winWidth)
+	balls[0]= new Ball(100,300,"¡Hola!",50,'rgba(245, 95, 86,1)',false);
+	balls[1]= new Ball(500,300,"Hi!",80,'rgba(66, 219, 252,1)',false);  
+	balls[2]= new Ball(800,300,"Olá!",60,'rgba(212, 133, 245,1)',false);  
+	balls[3]= new Ball(1100,300,"Salut!",80,'rgba(202, 235, 118,1)',false);  
+    balls[4]= new Ball(300,300,"Hallo!",100,'rgba(255, 216, 0,1)',false);      
+    balls[5]= new Ball(900,500,"Hallo!",110,'rgba(43, 0, 255,1)',false);    
+    balls[6]= new Ball(1000,800,"Hallo!",80,'rgba(214, 21, 178,1)',false);    
 }//init
    
 		$(webLink).animate({opacity : 1},2000);
@@ -265,31 +266,28 @@ function drawMainLine(ballOne, ballTwo){
 	var distY=Math.abs(ballOne.y - ballTwo.y);
 	var distLimit = 400;
 	var hipotenusa =  Math.sqrt(Math.pow(distX,2) + Math.pow(distY,2));
-smallStrokeOp -= hipotenusa/1000;
- bigStrokeOp -=  hipotenusa/10000;
+    smallStrokeOp -= hipotenusa/1000;
+    bigStrokeOp -=  hipotenusa/10000;
 if(hipotenusa< distLimit && hipotenusa < distLimit ){
 	//strokeGrande
-	//if(hipotenusa<distLimit-150)  bigStrokeOp=0.07;
-	//if(hipotenusa<distLimit-150)  smallStrokeOp=0.9;
 
-
- 	context.beginPath();
-	 context.globalAlpha =bigStrokeOp;   //limite 0.03
+ 	 context.beginPath();
+     context.globalAlpha =bigStrokeOp;   //limite 0.03
 	 context.lineWidth = 13;
 	 context.strokeStyle="white";
 	
-context.moveTo(ballOne.x,ballOne.y);
-context.lineTo(ballTwo.x,ballTwo.y);
-context.stroke();
-//strokePeque
+      context.moveTo(ballOne.x,ballOne.y);
+      context.lineTo(ballTwo.x,ballTwo.y);
+      context.stroke();
+      //strokePeque
 
-context.beginPath();
-context.lineWidth = 2;
-context.strokeStyle="white";
-context.globalAlpha =smallStrokeOp;    //limite 0.1 
-context.moveTo(ballOne.x,ballOne.y);
-context.lineTo(ballTwo.x,ballTwo.y);
-context.stroke();
+      context.beginPath();
+      context.lineWidth = 2;
+      context.strokeStyle="white";
+      context.globalAlpha =smallStrokeOp;    //limite 0.1 
+      context.moveTo(ballOne.x,ballOne.y);
+      context.lineTo(ballTwo.x,ballTwo.y);
+      context.stroke();
 
 }
 
@@ -329,32 +327,7 @@ function Ball(x,y,id,radius,colorr,makeSine){
 		context.arc(this.x,this.y,radiusDos,0,Math.PI*2,true);
 		context.closePath();
 		context.fill();
-		if(this.id=="web"){
-			var xLink = this.y - (webLink.offsetHeight/2 - 2);
-			var yLink = this.x -  (webLink.offsetWidth/2 -2);
-        webLink.style.top = xLink.toString() + "px";
-        webLink.style.left = yLink.toString() + "px";
-		}
-
-		if(this.id=="publicidadInteractiva"){
-			var xLink = this.y - (publicidadInteractivaLink.offsetHeight/2 - 2);
-			var yLink = this.x -  (publicidadInteractivaLink.offsetWidth/2 -2);
-        publicidadInteractivaLink.style.top = xLink.toString() + "px";
-        publicidadInteractivaLink.style.left = yLink.toString() + "px";
-		}
-
-		if(this.id=="publicidadAnimada"){
-			var xLink = this.y - (publicidadAnimadaLink.offsetHeight/2 - 2);
-			var yLink = this.x -  (publicidadAnimadaLink.offsetWidth/2 -2);
-       	 	publicidadAnimadaLink.style.top = xLink.toString() + "px";
-        	publicidadAnimadaLink.style.left = yLink.toString() + "px";
-		}
-		if(this.id=="solucionesInteractivas"){
-			var xLink = this.y - (solucionesInteractivasLink.offsetHeight/2 - 2);
-			var yLink = this.x -  (solucionesInteractivasLink.offsetWidth/2 -2);
-       	 	solucionesInteractivasLink.style.top = xLink.toString() + "px";
-        	solucionesInteractivasLink.style.left = yLink.toString() + "px";
-		}
+		
 	}// cierra pintar
     this.intercep = function(ballT){
     	if(Math.abs(this.x - ballT.x) < (this.radius+ballT.radius)-2 &&  Math.abs(this.y - ballT.y) < (this.radius+ballT.radius)-2 ){
@@ -376,20 +349,7 @@ function Ball(x,y,id,radius,colorr,makeSine){
 		var lineWidthh = 30;
 		var strokeColor ;
 
-		//ONDA
 		
-		/*op += Math.cos( this.angleOpacity )/20 -0.03;
-		context.beginPath(); 
-		//context.fillStyle= this.colorr;
-		context.globalAlpha = op;   
-		context.arc(this.x,this.y,this.radius+50,0,Math.PI*2,true);
-		 context.lineWidth = 40;
-		 	context.strokeStyle=this.colorr;
-		context.stroke();
-		context.closePath();
-				this.angleOpacity += 0.05;  // aumenta velocidad  */
-       
-		//ONDAExpansiva
 this.angleOpacity += 0.05;  // aumenta velocidad  */
 		this.expansiveRadius+=0.5;
 		lineWidthh+=10;
